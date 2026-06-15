@@ -1,12 +1,10 @@
 # Dockerfile
-FROM eclipse-temurin:17-jdk-alpine AS builder
+FROM gradle:8.7-jdk17-alpine AS builder
 WORKDIR /app
-COPY gradlew .
-COPY gradle gradle
 COPY build.gradle .
 COPY settings.gradle .
 COPY src src
-RUN chmod +x gradlew && ./gradlew bootJar -x test
+RUN gradle bootJar -x test --no-daemon
 
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
